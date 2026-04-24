@@ -1,0 +1,10 @@
+{
+  "name": "cis-project-site",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

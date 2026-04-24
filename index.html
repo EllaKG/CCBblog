@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CCB Women's Cycling</title>
+    <link rel="icon" type="image/jpeg" href="assets/images/profile.jpg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="scripts.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <img src="assets/images/profile.jpg" alt="Profile photo" class="profile-photo" style="height:200px;width:200px;object-fit:cover;border-radius:50%;margin-right:12px;vertical-align:middle;">
+      <h1 style="display:inline-block;vertical-align:middle;">Welcome to CCB Womens Cycling</h1>
+    </header>
+
+    <section class="trust-row" aria-label="Team highlights">
+      <div class="trust-item"><i data-lucide="trophy" class="icon icon-inline" aria-hidden="true"></i> UCI-Level Racing</div>
+      <div class="trust-item"><i data-lucide="graduation-cap" class="icon icon-inline" aria-hidden="true"></i> Student-Athletes</div>
+      <div class="trust-item"><i data-lucide="map-pin" class="icon icon-inline" aria-hidden="true"></i> Boston-Based Team</div>
+    </section>
+
+    <section class="theme-toggle-row" aria-label="Theme settings">
+      <label for="theme-toggle"><i data-lucide="palette" class="icon icon-inline" aria-hidden="true"></i> Theme</label>
+      <select id="theme-toggle" aria-label="Choose site theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="race">Race Mode</option>
+      </select>
+    </section>
+
+    <!-- React Menu Container -->
+    <div id="react-menu"></div>
+    <main>
+      <p>We are a professional women's cycling team dedicated to excellence and teamwork while racing internationally and committing to a full academic schedule.</p>
+      <p>This website will showcase our everyday lives as professional athletes and blogs about our pursuit of the World Tour cycling dream.</p>
+
+      <figure class="content-break-photo">
+        <img src="assets/images/IMG_5688.jpeg" alt="CCB riders racing together in team colors">
+      </figure>
+
+      <p>CCB Women’s Cycling is an American professional road racing team based out of Boston Massachusetts. The women’s version of this team is relatively new within the last 4 years, however the CCB title team has been around for 50 years as of 2026, making it one of the longest running elite teams not only in the nation, but the world. This team is known for its bright pink and blue colors are streak across professional road pelotons all over the globe. However, the goal of this team is not just to win, but to develop young riders for a successful career in both the World Tour field, as well as academic classroom. Every team member is required to be at least a full-time secondary education student or have already acquired an undergraduate degree. The goal is to prioritize not just excellence in sport within the Women’s field but also set up these young women to be successful in any pursued avenue of life. To learn more about the current team members or of the mission this team aims to achieve, go to <a href="https://www.pinkwatts.com/">https://www.pinkwatts.com/</a>.</p>
+
+      <h2 id="roster"><i data-lucide="users" class="icon section-icon" aria-hidden="true"></i>CCB Women’s Team 2026 Roster</h2>
+      <ul class="roster-list">
+        <li>Ella Grier</li>
+        <li>Sabrina Hayes</li>
+        <li>Jorja Bond</li>
+        <li>Kat Rusche</li>
+        <li>Kat Sarkisov</li>
+        <li>Alyssa Sarkisov</li>
+        <li>Bridget Ciambotti</li>
+        <li>Lizzy Gunsalus</li>
+        <li>Lyllie Sonnemann</li>
+        <li>Lily Edwards</li>
+        <li>Ella Brennaman</li>
+      </ul>
+
+      <section id="media" class="media-carousel-section" aria-labelledby="media-heading">
+        <h2 id="media-heading"><i data-lucide="images" class="icon section-icon" aria-hidden="true"></i>Media Carousel</h2>
+        <p>Swipe on mobile or use arrows to browse race photos and clips.</p>
+        <div class="media-carousel" aria-label="Team media gallery carousel">
+          <button class="carousel-btn prev" type="button" aria-label="Previous media">‹</button>
+          <div class="carousel-viewport">
+            <div class="carousel-track">
+              <figure class="carousel-slide is-active" data-type="image">
+                <img src="assets/media/Media%20Carousel/_DSC2856%20copy.jpeg" alt="Pro Nationals U23 Criterium win">
+                <figcaption>Pro Nationals U23 Criterium win last year!</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/_DSC7820%20copy.jpeg" alt="CCB warm up for 2025 Professional Road Nationals" loading="lazy">
+                <figcaption>CCB warm up for 2025 Professional Road Nationals.</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/DSCF1149-1.jpg" alt="Four new CCB members for 2026" loading="lazy">
+                <figcaption>Our four new members for CCB 2026!</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/DSCF1243-1.jpg" alt="Team with title sponsor Kinetik" loading="lazy">
+                <figcaption>Loving our new title sponsor Kinetik!</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/DSCF1378-1.jpg" alt="Meet the 2026 team" loading="lazy">
+                <figcaption>Meet the 2026 team!</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/DSCF1399-1.jpg" alt="Staff behind the scenes" loading="lazy">
+                <figcaption>The staff behind the scenes who keep this team running smoothly.</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/DSCF1454-1.jpg" alt="Race tactics director Megan Gaurnier and co-director Lauren Leclaire" loading="lazy">
+                <figcaption>Meet our new race tactics director Megan Gaurnier and returning co-director Lauren Leclaire!</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="image">
+                <img src="assets/media/Media%20Carousel/TDG2025-09-18-070.jpg" alt="Tour de Gatineau 2025" loading="lazy">
+                <figcaption>Tour de Gatineau 2025</figcaption>
+              </figure>
+              <figure class="carousel-slide" data-type="video">
+                <video controls preload="metadata">
+                  <source src="assets/media/Media%20Carousel/C0019.mp4" type="video/mp4">
+                  Your browser does not support this video.
+                </video>
+                <figcaption>CCB controlling the peloton in U23 Nationals last year.</figcaption>
+              </figure>
+            </div>
+          </div>
+          <button class="carousel-btn next" type="button" aria-label="Next media">›</button>
+        </div>
+        <div class="carousel-dots" aria-label="Select slide"></div>
+      </section>
+
+      <section id="quiz" class="quiz-section" aria-labelledby="quiz-heading">
+        <h2 id="quiz-heading"><i data-lucide="gamepad-2" class="icon section-icon" aria-hidden="true"></i>Which Rider Type Are You?</h2>
+        <p>Take this quick 3-question quiz and share your result.</p>
+
+        <form id="rider-quiz-form" class="quiz-card">
+          <fieldset>
+            <legend>1) Which race moment excites you most?</legend>
+            <label><input type="radio" name="q1" value="sprinter"> The final sprint to the line</label>
+            <label><input type="radio" name="q1" value="climber"> The hardest climb of the day</label>
+            <label><input type="radio" name="q1" value="tt"> Pacing perfectly in a time trial</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>2) What’s your team style?</legend>
+            <label><input type="radio" name="q2" value="sprinter"> Attack and finish fast</label>
+            <label><input type="radio" name="q2" value="domestique"> Support teammates and control the pace</label>
+            <label><input type="radio" name="q2" value="tt"> Stay calm and execute the plan</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>3) Which training day do you pick?</legend>
+            <label><input type="radio" name="q3" value="allrounder"> Mixed terrain endurance ride</label>
+            <label><input type="radio" name="q3" value="climber"> Long mountain repeats</label>
+            <label><input type="radio" name="q3" value="domestique"> Team pace-line and lead-outs</label>
+          </fieldset>
+
+          <button type="submit">See My Rider Type</button>
+        </form>
+
+        <div id="quiz-result" class="quiz-result" hidden aria-live="polite">
+          <p id="quiz-result-text"></p>
+          <div class="quiz-actions">
+            <button type="button" id="quiz-share">Share Result</button>
+            <button type="button" id="quiz-reset">Retake Quiz</button>
+          </div>
+          <small id="quiz-share-status"></small>
+        </div>
+      </section>
+
+      <h2 id="schedule"><i data-lucide="calendar-days" class="icon section-icon" aria-hidden="true"></i>Race Schedule</h2>
+
+      <div class="schedule-tools" aria-label="Race schedule tools">
+        <div id="race-countdown" class="countdown-pill" aria-live="polite"></div>
+        <div class="schedule-filters">
+          <label for="schedule-month-filter">Month</label>
+          <select id="schedule-month-filter">
+            <option value="all">All months</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+          </select>
+
+          <label for="schedule-location-filter">Location</label>
+          <select id="schedule-location-filter">
+            <option value="all">All locations</option>
+          </select>
+
+          <button type="button" id="schedule-reset-filters">Reset</button>
+        </div>
+      </div>
+    
+
+      <table class="schedule-table">
+        <caption>2026 Race Schedule</caption>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Event</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>4/8/2026</td><td>Redlands</td><td>California</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>4/15/2026</td><td>Sea Otter</td><td>California</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>5/7/2026</td><td>Collegiate Road Nationals</td><td>Wisconsin</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>5/15/2026</td><td>Tour de Bloom</td><td>Washington</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>5/30/2026</td><td>Armed Forces</td><td>Washington D.C.</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>6/5/2026</td><td>Tulsa Tough</td><td>Oklahoma</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+          <tr><td>6/17/2026</td><td>Professional Road Nationals</td><td>West Virginia</td><td><span class="race-status status-upcoming"><i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming</span></td></tr>
+        </tbody>
+      </table>
+
+      <section id="map" class="race-map-section" aria-labelledby="race-map-heading">
+        <h2 id="race-map-heading"><i data-lucide="map" class="icon section-icon" aria-hidden="true"></i>Race Location Map</h2>
+        <p>Hover or click each pin to see event name and race date.</p>
+        <div id="race-map" aria-label="Interactive map of race locations in the United States"></div>
+      </section>
+
+      <figure class="content-break-photo">
+        <img src="assets/images/20250412@nrvd.co301.jpeg" alt="Athlete portrait in a focused pre-race moment" loading="lazy">
+        <figcaption>Preparation off the bike is part of the performance.</figcaption>
+      </figure>
+
+      <section id="contact">
+        <h2><i data-lucide="mail" class="icon section-icon" aria-hidden="true"></i>Contact Us</h2>
+        <p class="contact-note">Messages submitted here are saved to a local SQLite database.</p>
+        <form id="contact-form">
+          <label for="name"><i data-lucide="user" class="icon label-icon" aria-hidden="true"></i>Name</label>
+          <input type="text" id="name" name="name" required placeholder="Your full name">
+
+          <label for="email"><i data-lucide="at-sign" class="icon label-icon" aria-hidden="true"></i>Email</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com">
+
+          <label for="subject"><i data-lucide="notebook-pen" class="icon label-icon" aria-hidden="true"></i>Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="Reason for contact">
+
+          <label for="message"><i data-lucide="message-square" class="icon label-icon" aria-hidden="true"></i>Message</label>
+          <textarea id="message" name="message" rows="5" required placeholder="Write your message here"></textarea>
+
+          <button type="submit">Send</button>
+        </form>
+        <p id="contact-status" class="contact-status" hidden aria-live="polite"></p>
+      </section>
+
+      <section id="blog">
+        <!-- React Blog Container -->
+        <div id="react-blog"></div>
+      </section>
+
+    </main>
+
+    <!-- Lightbox for full-size carousel images -->
+    <div id="lightbox" class="lightbox" hidden aria-modal="true" role="dialog" aria-label="Full size photo">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close full size photo">✕</button>
+      <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">‹</button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="">
+      <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">›</button>
+      <p class="lightbox-caption" id="lightbox-caption"></p>
+    </div>
+
+    <div id="rider-modal" class="rider-modal" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="rider-modal-title">
+      <div class="rider-modal-content">
+        <button type="button" id="rider-modal-close" class="rider-modal-close" aria-label="Close rider profile">×</button>
+        <h3 id="rider-modal-title">Rider Profile</h3>
+        <div id="rider-modal-body"></div>
+      </div>
+    </div>
+
+    <!-- Back to top button -->
+    <a href="#react-menu" class="back-to-top" aria-label="Back to top">
+      <i data-lucide="arrow-up" class="icon" aria-hidden="true"></i> Back to Top
+    </a>
+
+    <!-- Load React Components -->
+    <script type="text/babel" src="react-components.js"></script>
+  </body>
+</html>

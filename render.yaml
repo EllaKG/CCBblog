@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: cis-project-site
+    runtime: docker
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_PATH
+        value: /app/data/site.db
+    disks:
+      - name: cis-project-data
+        mountPath: /app/data
+        sizeGB: 1
