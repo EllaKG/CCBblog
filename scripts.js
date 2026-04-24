@@ -207,6 +207,34 @@ document.addEventListener('DOMContentLoaded', () => {
     return new Date(year, month - 1, day, 9, 0, 0);
   };
 
+  const updateRaceStatuses = () => {
+    if (scheduleRows.length === 0) {
+      return;
+    }
+
+    const now = new Date();
+
+    scheduleRows.forEach((row) => {
+      const dateText = row.cells[0]?.textContent.trim();
+      const statusPill = row.cells[3]?.querySelector('.race-status');
+
+      if (!dateText || !statusPill) {
+        return;
+      }
+
+      const raceDate = parseDate(dateText);
+      const isComplete = raceDate < now;
+
+      statusPill.classList.toggle('status-complete', isComplete);
+      statusPill.classList.toggle('status-upcoming', !isComplete);
+      statusPill.innerHTML = isComplete
+        ? '<i data-lucide="check-circle-2" class="icon icon-inline" aria-hidden="true"></i> Complete'
+        : '<i data-lucide="clock-3" class="icon icon-inline" aria-hidden="true"></i> Upcoming';
+    });
+
+    refreshIcons();
+  };
+
   if (locationFilter && scheduleRows.length > 0) {
     const locations = [...new Set(scheduleRows.map((row) => row.cells[2]?.textContent.trim()).filter(Boolean))].sort();
     locations.forEach((location) => {
@@ -275,8 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  updateRaceStatuses();
   updateCountdown();
-  setInterval(updateCountdown, 60000);
+  setInterval(() => {
+    updateRaceStatuses();
+    updateCountdown();
+  }, 60000);
 
   // interactive race map
   const raceMapEl = document.getElementById('race-map');

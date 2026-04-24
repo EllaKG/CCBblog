@@ -565,6 +565,16 @@ a:focus-visible {
   color: #07206f;
 }
 
+.status-complete {
+  background: rgba(16, 185, 129, 0.16);
+  color: #065f46;
+}
+
+body[data-theme='dark'] .status-complete {
+  background: rgba(110, 231, 183, 0.2);
+  color: #d1fae5;
+}
+
 .race-map-section {
   margin-top: 2.25rem;
 }
