@@ -28,22 +28,8 @@ function NavigationMenu() {
 
 // Blog Updates Component
 function BlogSection() {
-  // Load updates from localStorage or use default
-  const [updates, setUpdates] = React.useState(() => {
-    const saved = localStorage.getItem('blogUpdates');
-    if (saved) {
-      try {
-        return JSON.parse(saved).map(u => ({
-          ...u,
-          cheers: typeof u.cheers === 'number' ? u.cheers : 0,
-          date: new Date(u.date)
-        }));
-      } catch (e) {
-        return [{ id: 1, text: 'New team practice scheduled for tomorrow!', cheers: 0, date: new Date() }];
-      }
-    }
-    return [{ id: 1, text: 'New team practice scheduled for tomorrow!', cheers: 0, date: new Date() }];
-  });
+  const [updates, setUpdates] = React.useState([]);
+  const [updatesError, setUpdatesError] = React.useState('');
 
   const [cheeredPosts, setCheeredPosts] = React.useState(() => {
     const saved = localStorage.getItem('blogCheeredPosts');
@@ -75,10 +61,31 @@ function BlogSection() {
   
   const [newUpdate, setNewUpdate] = React.useState('');
 
-  // Save updates to localStorage whenever they change
+  const normalizeUpdate = (update) => ({
+    id: Number(update.id),
+    text: String(update.text || ''),
+    cheers: typeof update.cheers === 'number' ? update.cheers : 0,
+    date: new Date(update.created_at || update.date || Date.now())
+  });
+
   React.useEffect(() => {
-    localStorage.setItem('blogUpdates', JSON.stringify(updates));
-  }, [updates]);
+    const loadUpdates = async () => {
+      try {
+        const response = await fetch('/api/blog-updates');
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || 'Could not load updates.');
+        }
+
+        setUpdates((result.updates || []).map(normalizeUpdate));
+        setUpdatesError('');
+      } catch {
+        setUpdatesError('Could not load live updates right now.');
+      }
+    };
+
+    loadUpdates();
+  }, []);
 
   React.useEffect(() => {
     localStorage.setItem('blogCheeredPosts', JSON.stringify(cheeredPosts));
@@ -98,16 +105,31 @@ function BlogSection() {
     }
   }, [updates]);
 
-  const addUpdate = () => {
-    if (newUpdate.trim()) {
-      const newPost = {
-        id: updates.length > 0 ? Math.max(...updates.map(u => u.id)) + 1 : 1,
-        text: newUpdate,
-        cheers: 0,
-        date: new Date()
-      };
-      setUpdates([newPost, ...updates]);
+  const addUpdate = async () => {
+    const text = newUpdate.trim();
+    if (!text) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/blog-updates', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || 'Could not save update.');
+      }
+
+      setUpdates((prev) => [normalizeUpdate(result.update), ...prev]);
       setNewUpdate('');
+      setUpdatesError('');
+    } catch {
+      setUpdatesError('Could not save update right now.');
     }
   };
 
@@ -204,6 +226,10 @@ function BlogSection() {
         </div>
 
         <div>
+          {updatesError ? (
+            <div className="blog-empty">{updatesError}</div>
+          ) : null}
+
           {updates.length === 0 ? (
             <div className="blog-empty"><i data-lucide="notebook-text" className="icon section-icon" aria-hidden="true"></i>No updates yet. Check back after our next race!</div>
           ) : (

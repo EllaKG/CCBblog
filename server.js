@@ -37,9 +37,29 @@ database.exec(`
   )
 `);
 
+database.exec(`
+  CREATE TABLE IF NOT EXISTS blog_updates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL,
+    cheers INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL
+  )
+`);
+
 const insertMessage = database.prepare(`
   INSERT INTO contact_messages (name, email, subject, message, created_at)
   VALUES (?, ?, ?, ?, ?)
+`);
+
+const listBlogUpdates = database.prepare(`
+  SELECT id, text, cheers, created_at
+  FROM blog_updates
+  ORDER BY datetime(created_at) DESC, id DESC
+`);
+
+const insertBlogUpdate = database.prepare(`
+  INSERT INTO blog_updates (text, cheers, created_at)
+  VALUES (?, ?, ?)
 `);
 
 function sendJson(response, statusCode, payload) {
@@ -113,6 +133,12 @@ const server = http.createServer(async (request, response) => {
     return;
   }
 
+  if (request.method === 'GET' && requestUrl.pathname === '/api/blog-updates') {
+    const updates = listBlogUpdates.all();
+    sendJson(response, 200, { updates });
+    return;
+  }
+
   if (request.method === 'POST' && requestUrl.pathname === '/api/contact') {
     try {
       const rawBody = await getRequestBody(request);
@@ -154,6 +180,40 @@ const server = http.createServer(async (request, response) => {
       }
 
       sendJson(response, 500, { error: 'Could not save your message right now.' });
+      return;
+    }
+  }
+
+  if (request.method === 'POST' && requestUrl.pathname === '/api/blog-updates') {
+    try {
+      const rawBody = await getRequestBody(request);
+      const payload = JSON.parse(rawBody || '{}');
+      const text = String(payload.text || '').trim();
+
+      if (!text) {
+        sendJson(response, 400, { error: 'Update text is required.' });
+        return;
+      }
+
+      const createdAt = new Date().toISOString();
+      const result = insertBlogUpdate.run(text, 0, createdAt);
+
+      sendJson(response, 201, {
+        update: {
+          id: Number(result.lastInsertRowid),
+          text,
+          cheers: 0,
+          created_at: createdAt
+        }
+      });
+      return;
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        sendJson(response, 400, { error: 'Invalid JSON payload.' });
+        return;
+      }
+
+      sendJson(response, 500, { error: 'Could not save update right now.' });
       return;
     }
   }
