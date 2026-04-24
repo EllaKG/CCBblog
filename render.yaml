@@ -8,7 +8,7 @@ services:
         value: production
       - key: DATABASE_PATH
         value: /app/data/site.db
-    disks:
-      - name: cis-project-data
-        mountPath: /app/data
-        sizeGB: 1
+    disk:
+      name: cis-project-data
+      mountPath: /app/data
+      sizeGB: 1
